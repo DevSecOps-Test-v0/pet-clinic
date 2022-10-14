@@ -1,7 +1,11 @@
 
 pool:
   vmImage: ubuntu-latest
-
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'Sonarcloud'
+    organization: 'devsecops-test-v0'
+    scannerMode: 'Other'
 steps:
 - task: Gradle@3
   inputs:
@@ -11,4 +15,23 @@ steps:
     testResultsFiles: '**/TEST-*.xml'
     javaHomeOption: 'JDKVersion'
     sonarQubeRunAnalysis: false
+    spotBugsAnalysis: false
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'Sonarcloud'
+    organization: 'devsecops-test-v0'
+    projectKey: 'DevSecOps-Test-v0_pet-clinic'
+    projectName: 'pet-clinic'
+
+- task: Gradle@3
+  inputs:
+    gradleWrapperFile: 'gradlew'
+    tasks: 'sonarqube'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    sonarQubeRunAnalysis: true
+    sqGradlePluginVersionChoice: 'specify'
+    sonarQubeGradlePluginVersion: '2.6.1'
     spotBugsAnalysis: false
