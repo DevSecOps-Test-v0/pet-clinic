@@ -1,11 +1,7 @@
 
 pool:
   vmImage: ubuntu-latest
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'Sonarcloud'
-    organization: 'devsecops-test-v0'
-    scannerMode: 'Other'
+
 steps:
 - task: Gradle@3
   inputs:
@@ -27,7 +23,7 @@ steps:
 - task: Gradle@3
   inputs:
     gradleWrapperFile: 'gradlew'
-    tasks: 'sonarqube'
+    tasks: 'build'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     javaHomeOption: 'JDKVersion'
