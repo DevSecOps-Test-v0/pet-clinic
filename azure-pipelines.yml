@@ -49,6 +49,15 @@ steps:
 - task: Docker@2
   inputs:
     containerRegistry: 'Docker'
+    repository: 'patriciopcg/pet-clinic'
     command: 'build'
     Dockerfile: '**/Dockerfile'
     tags: 'latest'
+
+- script: 
+    sudo apt-get instal -y rpm
+    wget htpps://github.com/aquasecurity/trivy/releases/download/v0.27.1_Linux-64bit.deb
+    sudo dpkg -i trivy_0.27.1_Linux-64bit.deb
+    trivy image pfcanales/pet-clinic:latest
+  displayName: Image Scan
+
